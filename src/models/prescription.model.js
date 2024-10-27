@@ -1,13 +1,13 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const prescriptionSchema = new mongoose.Schema(
+const prescriptionSchema = new Schema(
   {
     patientId: {
       type: String,
       required: true,
     },
     doctorId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Doctor",
       required: true,
     },
@@ -51,4 +51,4 @@ const prescriptionSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Prescription", prescriptionSchema);
+export default model("Prescription", prescriptionSchema);
