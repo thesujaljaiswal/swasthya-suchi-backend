@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
 
 const chemistSchema = new Schema(
   {
@@ -68,4 +69,14 @@ const chemistSchema = new Schema(
   }
 );
 
-export default model("Chemist", chemistSchema);
+chemistSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+chemistSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+export const Chemist = mongoose.model("Chemist", chemistSchema);

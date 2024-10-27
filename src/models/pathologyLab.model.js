@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const labReportSchema = new Schema(
+const PathologyLabSchema = new Schema(
   {
     labName: {
       type: String,
@@ -79,4 +79,14 @@ const labReportSchema = new Schema(
   }
 );
 
-export default model("LabReport", labReportSchema);
+PathologyLab.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+PathologyLab.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+export const PathologyLab = mongoose.model("PathologyLab", PathologyLabSchema);
