@@ -1,57 +1,40 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const labReportSchema = new mongoose.Schema({
-  patientId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Patient",
-    required: true,
+const labReportSchema = new Schema(
+  {
+    patientId: {
+      type: String,
+      required: true,
+    },
+    doctorId: {
+      type: String,
+      required: true,
+    },
+    pathologyLabId: {
+      type: Schema.Types.ObjectId,
+      ref: "PathologyLab",
+      required: true,
+    },
+    reportType: {
+      type: String,
+      required: true,
+    },
+    remarks: {
+      type: String,
+      required: true,
+    },
+    reportFileUrl: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
   },
-  doctorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Doctor",
-    required: true,
-  },
-  pathologyLabId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "PathologyLab",
-    required: true,
-  },
-  reportType: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  reportType: {
-    type: String,
-    required: true,
-  },
-  results: {
-    type: String,
-    required: true,
-  },
-  reportFileUrl: {
-    type: String,
-    required: true,
-  },
-  remarks: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model("LabReport", labReportSchema);
+export default model("LabReport", labReportSchema);
